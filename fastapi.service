@@ -1,0 +1,20 @@
+[Unit]
+Description=FastAPI Application
+After=network.target
+
+[Service]
+Type=simple
+User=jenkins
+Group=jenkins
+WorkingDirectory=/var/lib/jenkins/workspace/jenkins-fastapi
+Environment="PATH=/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONPATH=/var/lib/jenkins/workspace/jenkins-fastapi/src"
+ExecStart=/var/lib/jenkins/.local/bin/uv run uvicorn src.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=fastapi
+
+[Install]
+WantedBy=multi-user.target
